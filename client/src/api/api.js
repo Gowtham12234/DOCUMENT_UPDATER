@@ -1,20 +1,10 @@
 // client/src/api/api.js
 console.log("--- API FILE LOADED SUCCESSFULLY ---");
 
-const FLASK_API_URL = 'http://localhost:5000'; // ensure this matches your Flask app address
+const FLASK_API_URL = 'http://localhost:5000'; 
 
 const api = {
-  /**
-   * Uploads a document file and requested summary length to Flask backend,
-   * and returns the parsed JSON response.
-   *
-   * Usage (keeps compatibility with DocumentUploader.jsx):
-   *   const result = await api.uploadAndSummarize(file, length);
-   *
-   * Expected backend request fields:
-   *   - files: 'document' (file)
-   *   - form: 'length' (string like 'short'|'medium'|'long')
-   */
+ 
   uploadAndSummarize: async (file, length) => {
     if (!file) {
       throw new Error('No file provided to uploadAndSummarize().');
@@ -29,12 +19,12 @@ const api = {
       const response = await fetch(`${FLASK_API_URL}/upload_and_summarize`, {
         method: 'POST',
         body: formData,
-        // IMPORTANT: Do not set the Content-Type header when using FormData.
+        
       });
 
       console.log('Response status:', response.status);
 
-      // Attempt to parse JSON — wrap in try/catch to produce clearer error message if not JSON
+      
       let data;
       try {
         data = await response.json();
