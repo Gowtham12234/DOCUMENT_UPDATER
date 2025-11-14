@@ -1,0 +1,196 @@
+:root {
+  --bg: #f8fafc;
+  --card-bg: #ffffff;
+  --muted: #6b7280;
+  --primary: #2563eb;
+  --accent: #10b981;
+  --danger: #ef4444;
+  --rounded: 14px;
+  --shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  --font: 'Inter', 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Page & container basics */
+html, body, #root {
+  height: 100%;
+  min-height: 100vh;
+  margin: 0;
+  background: var(--bg);
+  font-family: var(--font);
+  color: #111827;
+}
+
+.document-container {
+  width: 90%;
+  max-width: 700px;
+  margin: 40px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+/* Title */
+.document-title {
+  text-align: center;
+  color: var(--primary);
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* Upload form */
+.upload-form {
+  width: 100%;
+  background: var(--card-bg);
+  border-radius: var(--rounded);
+  box-shadow: var(--shadow);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: all 0.2s ease;
+}
+
+.drop-zone {
+  width: 100%;
+  border: 2px dashed rgba(37, 99, 235, 0.18);
+  border-radius: 10px;
+  padding: 18px 12px;
+  text-align: center;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--muted);
+  min-height: 82px;
+}
+
+.drop-zone:hover,
+.drop-zone.dragover {
+  background: rgba(37, 99, 235, 0.04);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.file-input { display: none; }
+
+.file-label {
+  color: var(--primary);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Options and button */
+.summary-options {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.summary-select {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(0,0,0,0.08);
+  background: #fff;
+  font-weight: 600;
+}
+
+.submit-button {
+  width: 100%;
+  background: linear-gradient(90deg, var(--accent), #06b6d4);
+  color: white;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.submit-button:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(16,185,129,0.18); }
+.submit-button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* Messages */
+.error-message { color: var(--danger); font-weight: 600; text-align: center; }
+.loading-message { color: var(--primary); font-weight: 600; text-align: center; }
+
+/* SUMMARY SECTION: dynamic, animated and scrollable */
+.summary-section {
+  width: 100%;
+  max-height: calc(70vh);
+  overflow: auto;
+  background: var(--card-bg);
+  border-radius: var(--rounded);
+  box-shadow: var(--shadow);
+  padding: 18px 20px;
+  text-align: left;
+  margin-top: 8px;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 260ms ease, transform 260ms ease, max-height 300ms ease;
+  will-change: transform, opacity, max-height;
+  border: 1px solid rgba(0,0,0,0.03);
+}
+
+/* visible state */
+.summary-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+  max-height: calc(80vh);
+}
+
+/* Header inside summary */
+.summary-header {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--primary);
+  padding-bottom: 6px;
+  margin-bottom: 12px;
+  text-align: center;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+/* Paragraph-based summary text with spacing between paragraphs */
+.summary-text p,
+.raw-text p {
+  margin: 0 0 12px 0;     /* gap after every paragraph */
+  line-height: 1.6;
+  word-break: break-word;
+  color: #111827;
+  font-size: 0.98rem;
+  text-align: justify;
+}
+
+/* Remove extra bottom margin on last paragraph */
+.summary-text p:last-child,
+.raw-text p:last-child {
+  margin-bottom: 0;
+}
+
+/* Raw text area (scrollable) */
+.raw-text {
+  max-height: 40vh;
+  overflow: auto;
+  background: #fbfdff;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 0.9rem;
+  color: #374151;
+  border: 1px solid rgba(0,0,0,0.04);
+}
+
+/* Placeholder when no summary exists */
+.summary-placeholder {
+  text-align: center;
+  color: var(--muted);
+  margin: 8px 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .document-container { width: 95%; margin: 18px auto; }
+  .summary-section { max-height: calc(60vh); padding: 14px; }
+  .raw-text { max-height: 30vh; }
+}

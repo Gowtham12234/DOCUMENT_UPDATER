@@ -1,0 +1,356 @@
+/* === Root Variables === */
+/* ---------- Page layout: header/main/footer ---------- */
+
+/* Ensure the viewport is full height and we can push footer below content */
+html, body, #root {
+  height: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font);
+  background: var(--bg);
+  color: #111827;
+}
+
+/* Use column flex layout so footer naturally sits after main content */
+.app-root {            /* new wrapper around the whole app */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Main area expands to fit content; footer sits after it */
+.site-main {
+  flex: 1 0 auto; /* grow as needed, but allow footer below */
+  display: flex;
+  align-items: flex-start;   /* don't vertically center here — allow natural flow */
+  justify-content: center;
+  width: 100%;
+  padding: 60px 16px 40px;   /* top padding kept from earlier design */
+}
+
+/* Centered content container stays same as before but nested inside .site-main */
+.document-container {
+  width: 90%;
+  max-width: 700px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  background: var(--card-bg);
+  border-radius: var(--rounded);
+  box-shadow: var(--shadow);
+  padding: 24px;
+  /* remove margin-top used previously to keep layout consistent */
+  margin: 0;
+}
+
+/* Footer styles — always after the main content */
+.site-footer {
+  flex-shrink: 0;            /* prevent footer from shrinking */
+  width: 100%;
+  background: transparent;   /* or set a color if you want */
+  border-top: 1px solid rgba(0,0,0,0.05);
+  padding: 18px 12px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* If you want footer to visually separate, use a centered small container */
+.site-footer .footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  align-items: center;
+}
+
+/* Small responsive tweak */
+@media (max-width: 768px) {
+  .site-main { padding: 40px 12px 24px; }
+  .document-container { padding: 18px; width: 95%; }
+  .site-footer { padding: 14px 10px; font-size: 0.9rem; }
+}
+
+:root {
+  --bg: #f8fafc;
+  --card-bg: #ffffff;
+  --muted: #6b7280;
+  --primary: #2563eb;
+  --accent: #10b981;
+  --danger: #ef4444;
+  --rounded: 14px;
+  --shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  --font: 'Inter', 'Segoe UI', Roboto, sans-serif;
+}
+
+/* === Reset === */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* === Body Layout === */
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  background: var(--bg);
+  font-family: var(--font);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 60px;
+}
+
+/* === Center Container === */
+.document-container {
+  width: 90%;
+  max-width: 700px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+/* === Title === */
+.document-title {
+  text-align: center;
+  color: var(--primary);
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+/* === Upload Form === */
+.upload-form {
+  width: 100%;
+  background: var(--card-bg);
+  border-radius: var(--rounded);
+  box-shadow: var(--shadow);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  transition: all 0.3s ease;
+}
+
+/* Drop Zone (smaller height) */
+.drop-zone {
+  width: 100%;
+  border: 2px dashed rgba(37, 99, 235, 0.25);
+  border-radius: 12px;
+  padding: 24px 10px;
+  text-align: center;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--muted);
+  transition: all 0.3s ease;
+  min-height: 90px;
+}
+
+.drop-zone:hover,
+.drop-zone.dragover {
+  background: rgba(37, 99, 235, 0.05);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* Hidden file input */
+.file-input {
+  display: none;
+}
+
+/* Label looks like a button */
+.file-label {
+  color: var(--primary);
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+/* Summary options */
+.summary-options {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.summary-select {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: #fff;
+  font-weight: 600;
+}
+
+/* Button */
+.submit-button {
+  width: 100%;
+  background: linear-gradient(90deg, var(--accent), #06b6d4);
+  color: white;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  font-size: 1rem;
+}
+
+.submit-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(16, 185, 129, 0.25);
+}
+
+.submit-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* === Messages === */
+.error-message {
+  color: var(--danger);
+  font-weight: 600;
+  text-align: center;
+  margin-top: 8px;
+}
+
+.loading-message {
+  color: var(--primary);
+  text-align: center;
+  font-weight: 600;
+}
+
+/* === Summary Section (Below Upload Box) === */
+.summary-section {
+  width: 100%;
+  background: var(--card-bg);
+  border-radius: var(--rounded);
+  box-shadow: var(--shadow);
+  padding: 24px;
+  text-align: left;
+  margin-top: 10px;
+}
+
+.summary-header {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--primary);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding-bottom: 6px;
+  margin-bottom: 14px;
+  text-align: center;
+}
+
+/* Paragraph summary text */
+.summary-text {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #111827;
+  text-align: justify;
+  white-space: normal;
+  margin-bottom: 20px;
+}
+
+/* Raw text box */
+.raw-text {
+  max-height: 220px;
+  overflow-y: auto;
+  background: #f9fafb;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #374151;
+  white-space: pre-wrap;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .document-container {
+    width: 95%;
+  }
+
+  .document-title {
+    font-size: 1.5rem;
+  }
+
+  .drop-zone {
+    padding: 20px;
+    min-height: 80px;
+  }
+}
+/* Dynamic, animated summary container */
+.summary-section {
+  width: 100%;
+  max-height: calc(70vh);        /* allow it to fill up to 70% of viewport */
+  overflow: auto;                /* scroll internally when content is long */
+  background: var(--card-bg);
+  border-radius: var(--rounded);
+  box-shadow: var(--shadow);
+  padding: 20px 22px;
+  text-align: left;
+  margin-top: 14px;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 260ms ease, transform 260ms ease, max-height 300ms ease;
+  will-change: transform, opacity, max-height;
+  border: 1px solid rgba(0,0,0,0.03);
+}
+
+/* When summary appears, reveal it */
+.summary-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+  max-height: calc(80vh);
+}
+
+/* Header */
+.summary-header {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--primary);
+  padding-bottom: 6px;
+  margin-bottom: 12px;
+  text-align: center;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+/* Body text: allow wrapping and readable width */
+.summary-text {
+  font-size: 0.98rem;
+  line-height: 1.65;
+  color: #111827;
+  text-align: justify;
+  white-space: pre-wrap;     /* preserve line breaks from summarizer but wrap long lines */
+  word-break: break-word;
+  margin-bottom: 14px;
+}
+
+/* Raw text box: scrollable */
+.raw-text {
+  max-height: 40vh;
+  overflow: auto;
+  background: #fbfdff;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: #374151;
+  white-space: pre-wrap;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+/* Small screens: reduce heights */
+@media (max-width: 768px) {
+  .summary-section { max-height: calc(60vh); padding: 16px; }
+  .raw-text { max-height: 30vh; }
+}
