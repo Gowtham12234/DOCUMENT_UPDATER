@@ -74,14 +74,13 @@ const DocumentUploader = () => {
   // Helper: split by sentence boundaries (keeps punctuation)
   const splitToSentences = (text) => {
     if (!text) return [];
-    // Basic sentence splitter: splits on ., ?, ! followed by space or line end.
-    // Keeps abbreviations imperfectly but works for most cases.
+    
     const sentences = text
       .replace(/\r?\n+/g, ' ')
       .split(/(?<=[.?!])\s+(?=[A-Z0-9"“‘'()])/g)
       .map((s) => s.trim())
       .filter(Boolean);
-    // Fallback: if split produced 1 long chunk, try simpler split on punctuation
+    
     if (sentences.length === 1) {
       return text
         .replace(/\r?\n+/g, ' ')
@@ -92,7 +91,7 @@ const DocumentUploader = () => {
     return sentences;
   };
 
-  // Group an array into `n` chunks as evenly as possible
+  
   const chunkSentences = (sentences, n) => {
     const total = sentences.length;
     if (total === 0) return Array.from({ length: n }, () => []).slice(0, Math.max(1, Math.min(n, total)));
@@ -112,23 +111,23 @@ const DocumentUploader = () => {
     return chunks;
   };
 
-  // Main paragraph generator: wantCount = 1/2/3 based on summaryLength
+  // Main paragraph generator:
   const paragraphsFrom = (text) => {
     const preferNewlines = splitByNewlines(text);
     let desired = 1;
     if (summaryLength === 'medium') desired = 2;
     if (summaryLength === 'long') desired = 3;
 
-    // If newline-splitting already yields enough paragraphs, use them (slice to desired)
+    
     if (preferNewlines.length >= desired) {
       return preferNewlines.slice(0, desired);
     }
 
-    // Otherwise, split into sentences and distribute into 'desired' chunks
+    
     const sentences = splitToSentences(text);
     if (sentences.length === 0) return [];
 
-    // If sentences fewer than desired, return each sentence as a paragraph up to available
+    
     if (sentences.length <= desired) {
       return sentences.map((s) => s);
     }
@@ -140,9 +139,9 @@ const DocumentUploader = () => {
       .map((p) => p.trim())
       .filter(Boolean);
 
-    // If for some reason paras length < desired (edge cases), fallback: return first desired slices from sentences joined
+  
     if (paras.length < desired) {
-      // make approximate paragraphs by slicing equal-sized sentence groups
+     
       const fallbackChunks = chunkSentences(sentences, Math.max(1, desired));
       return fallbackChunks.map((c) => c.join(' ').trim()).filter(Boolean).slice(0, desired);
     }
